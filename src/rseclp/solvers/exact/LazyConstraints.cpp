@@ -434,7 +434,7 @@ namespace rseclp {
             mMasterModel->setCallback(callback.get());
         }
 
-        double timeLimitInSeconds = (double)chrono::duration_cast<chrono::seconds>(cfg.getTimeLimit() - stopwatch.duration()).count();
+        double timeLimitInSeconds = ((double)(cfg.getTimeLimit() - stopwatch.duration()).count()) / 1000.0;
         mMasterModel->getEnv().set(GRB_DoubleParam_TimeLimit, timeLimitInSeconds);
         mMasterModel->update();
 
