@@ -45,9 +45,9 @@ int main(int argc, char **argv) {
 
     unique_ptr<SolverPrescription> solverPrescription(SolverPrescription::read(solverPrescriptionPath));
     unique_ptr<Instance> ins(rseclp::InstanceJsonReader::read(instancePath));
-    unique_ptr<Solver> solver((*solverPrescription).createSolver(*ins));
+    unique_ptr<Solver> solver(solverPrescription->createSolver(*ins));
 
-    auto result = (*solver).solve((*solverPrescription).getConfig());
+    auto result = solver->solve(solverPrescription->getConfig());
     switch (result.getStatus()) {
         case Solver::Result::Status::NO_SOLUTION:
             cout << "Result status: no solution found" << endl;
