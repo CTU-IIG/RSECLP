@@ -27,6 +27,8 @@
 #define ROBUSTENERGYAWARESCHEDULING_JSONUTILS_H
 
 #include <vector>
+#include <stdexcept>
+#include <sstream>
 #include <boost/filesystem.hpp>
 #include <rapidjson/document.h>
 #include <rapidjson/allocators.h>

@@ -58,6 +58,12 @@ namespace rseclp {
 
     // TODO (refactoring): names of parameters are confusing.
     void JsonUtils::readJsonDocument(const path &targetPath, Document &target, bool readParent) {
+        if (!boost::filesystem::exists(targetPath)) {
+            std::stringstream msg;
+            msg << "Json file '" << targetPath << "' not found." << endl;
+            throw std::invalid_argument(msg.str());
+        }
+
         if (readParent == false) {
             FILE *pathFile = fopen(targetPath.c_str(), "r");
 
