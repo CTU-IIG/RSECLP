@@ -60,7 +60,7 @@ set(LIB_SRC
         src/rseclp/objectives/TotalTardiness.cpp src/rseclp/objectives/TotalTardiness.h
         src/rseclp/solvers/SolverResultJsonReader.cpp src/rseclp/solvers/SolverResultJsonReader.h
         src/rseclp/solvers/heuristics/TabuSearch.cpp src/rseclp/solvers/heuristics/TabuSearch.h
-        )
+        src/rseclp/solvers/SolverPrescription.cpp src/rseclp/solvers/SolverPrescription.h)
 
 find_package(GUROBI REQUIRED)
 include_directories(${GUROBI_INCLUDE_DIR})
