@@ -440,14 +440,29 @@ namespace rseclp {
 
         mMasterModel->optimize();
 
-        if (mMasterModel->get(GRB_IntAttr_Status) == GRB_INFEASIBLE) {
-            result.setStatus(Solver::Result::Status::INFEASIBLE);
+        Solver::Result::Status status = Solver::Result::Status::NO_SOLUTION;
+        double objectiveValue = numeric_limits<double>::max();
+        StartTimes startTimes;
+        if (mMasterModel->get(GRB_IntAttr_SolCount) <= 0) {
+            if (mMasterModel->get(GRB_IntAttr_Status) == GRB_INFEASIBLE) {
+                status = Solver::Result::Status::INFEASIBLE;
+            }
+            else {
+                status = Solver::Result::Status::NO_SOLUTION;
+            }
         }
-        else if (mMasterModel->get(GRB_IntAttr_Status) == GRB_OPTIMAL || mMasterModel->get(GRB_IntAttr_Status) == GRB_TIME_LIMIT) {
-            result.setSolution(mMasterModel->get(GRB_IntAttr_Status) == GRB_OPTIMAL ? Solver::Result::Status::OPTIMAL : Solver::Result::Status::FEASIBLE,
-                               getStartTimesFromMasterSolution(),
-                               mMasterModel->getObjective().getValue());
+        else {
+            if (mMasterModel->get(GRB_IntAttr_Status) == GRB_OPTIMAL) {
+                status = Solver::Result::Status::OPTIMAL;
+            }
+            else {
+                status = Solver::Result::Status::FEASIBLE;
+            }
+            objectiveValue = mMasterModel->get(GRB_DoubleAttr_ObjVal);
+            startTimes = getStartTimesFromMasterSolution();
         }
+
+        result.setSolution(status, startTimes, objectiveValue);
 
         if (scfg.mNoCallback == false) {
             result.setOptional("numGeneratedLazyConstraints", to_string(callback->mNumGeneratedLazyConstraints));
