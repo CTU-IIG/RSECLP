@@ -70,12 +70,12 @@ namespace rseclp {
 
         StartTimes startTimes;
         bool useInitStartTimes = false;
-        if (doc.HasMember("startTimes")) {
+        if (doc.HasMember("initStartTimes")) {
             useInitStartTimes = true;
             if (doc.HasMember("useInitStartTimes")) {
                 useInitStartTimes = doc["useInitStartTimes"].GetBool();
             }
-            startTimes = StartTimes(JsonUtils::getVector<int>(doc, "startTimes"));
+            startTimes = StartTimes(JsonUtils::getVector<int>(doc, "initStartTimes"));
         }
 
         // Solver stage.
