@@ -467,6 +467,19 @@ namespace rseclp {
     void LazyConstraints::setInitialSolution(const Solver::Config &cfg) {
         if (cfg.getUseInitStartTimes()) {
             auto &initStartTimes = cfg.getInitStartTimes();
+            if (!FeasibilityChecker(mIns).areFeasible(initStartTimes)) {
+                return;
+            }
+
+            for (const Operation *pOperation : mIns.getOperations()) {
+                const Operation &operation = *pOperation;
+                int tMin = mMasterVars.getStartTimeMin(operation);
+                int tMax = mMasterVars.getStartTimeMax(operation);
+                if (initStartTimes[operation] < tMin || initStartTimes[operation] > tMax) {
+                    return;
+                }
+            }
+
             for (const Operation *pOperation : mIns.getOperations()) {
                 const Operation &operation = *pOperation;
                 mMasterVars.bs(operation.getIndex(), initStartTimes[operation]).set(GRB_DoubleAttr_Start, 1);
