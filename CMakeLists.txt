@@ -28,7 +28,6 @@ set(DATASETGEN_SRC
 
 set(EXPERIMENT_SRC
         src/experiment/main.cpp
-        src/experiment/ExperimentPrescription.cpp src/experiment/ExperimentPrescription.h
         )
 
 set(LIB_SRC

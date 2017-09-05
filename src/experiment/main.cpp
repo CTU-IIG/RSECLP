@@ -31,7 +31,6 @@
 #include <thread>
 #include <pthread.h>
 #include <sched.h>
-#include "ExperimentPrescription.h"
 #include "../rseclp/instance/Instance.h"
 #include "../rseclp/instance/InstanceJsonReader.h"
 #include "../rseclp/solvers/MultiStageSolver.h"
@@ -43,6 +42,7 @@
 #include "../rseclp/solvers/SolverResultJsonWriter.h"
 #include "../rseclp/solvers/SolverResultJsonReader.h"
 #include "../rseclp/solvers/heuristics/TabuSearch.h"
+#include "../rseclp/solvers/SolverPrescription.h"
 
 using namespace std;
 using namespace boost::filesystem;
@@ -57,28 +57,28 @@ struct Work {
 
 int main(int argc, char **argv) {
     if (argc != 4) {
-        cout << "Error: experiment name not provided";
+        cout << "Error: not every argument provided";
         exit(1);
     }
 
     path experimentDataDir = current_path() / "experiment-data";
 
     string datasetName = string(argv[1]);
-    path experimentPrescriptionFilename = path(argv[2]);
+    path solverPrescriptionFilename = path(argv[2]);
     int numThreads = stoi(argv[3]);
 
-    path experimentPrescriptionName = experimentPrescriptionFilename.stem();
+    path solverPrescriptionName = solverPrescriptionFilename.stem();
 
     path experimentPrescriptionDir = experimentDataDir / "experiments" / datasetName;
-    path experimentPrescriptionPath = experimentPrescriptionDir / experimentPrescriptionFilename;
+    path solverPrescriptionPath = experimentPrescriptionDir / solverPrescriptionFilename;
 
     path resultsPath = experimentPrescriptionDir / "results";
     path datasetsDir = experimentDataDir / "datasets";
     path datasetDir = datasetsDir / datasetName;
 
-    cout << "Starting experiment " << experimentPrescriptionFilename << " for dataset " << datasetName << "." << endl;
+    cout << "Starting experiment " << solverPrescriptionFilename << " for dataset " << datasetName << "." << endl;
 
-    auto experimentPrescription = ExperimentPrescription::readFromJson(experimentPrescriptionPath);
+    unique_ptr<SolverPrescription> solverPrescription(SolverPrescription::read(solverPrescriptionPath));
 
     if (!exists(resultsPath)) {
         create_directories(resultsPath);
@@ -97,8 +97,6 @@ int main(int argc, char **argv) {
             works.push_back(new Work(realisationIndex, repetition));
         }
     }
-
-    auto &solverStage = experimentPrescription.getSolverStage();
 
     // One global mutex for everything.
     // Since all shared objects are accessed outside of time-consuming solver.solve(), it is not such a problem.
@@ -130,27 +128,12 @@ int main(int argc, char **argv) {
                 path instancePath = datasetDir / to_string(work->mRealisationIndex) / "instances" / (to_string(work->mRepetition) + ".json");
                 ins.reset(InstanceJsonReader::read(instancePath));
 
-                experimentPrescription.setGurobiEnvParams(env);
-
-                if (solverStage.getName() == GreedyHeuristics::KEY_SOLVER) {
-                    solver.reset(new GreedyHeuristics(*ins));
-                } else if (solverStage.getName() == TabuSearch::KEY_SOLVER) {
-                    solver.reset(new TabuSearch(*ins));
-                } else if (solverStage.getName() == LazyConstraints::KEY_SOLVER) {
-                    solver.reset(new LazyConstraints(*ins, env));
-                } else if (solverStage.getName() == BranchAndBoundOnOrder::KEY_SOLVER) {
-                    solver.reset(new BranchAndBoundOnOrder(*ins)); } else {
-                    cout << "Unkown solver " << solverStage.getName() << endl;
-                    exit(1);
-                };
-
-                Solver::SpecialisedConfig specialisedConfig;
-                solverStage.setSpecialisedConfig(specialisedConfig);
+                solver.reset(solverPrescription->createSolver(*ins));
 
                 bool useInitStartTimes = false;
                 StartTimes initStartTimes;
-                if (experimentPrescription.getPreviousStage() != "") {
-                    path previousStageFilename = path(experimentPrescription.getPreviousStage());
+                if (solverPrescription->hasPreviousStage()) {
+                    path previousStageFilename = path(solverPrescription->getPreviousStage());
                     path previousStageName = previousStageFilename.stem();
                     auto previousStageResult = SolverResultJsonReader::read(resultsPath / previousStageName / to_string(work->mRealisationIndex) / (to_string(work->mRepetition) + ".json"));
 
@@ -160,12 +143,18 @@ int main(int argc, char **argv) {
                         initStartTimes = previousStageResult.getStartTimes();
                     }
                 }
+                else {
+                    useInitStartTimes = solverPrescription->getConfig().getUseInitStartTimes();
+                    if (useInitStartTimes) {
+                        initStartTimes = solverPrescription->getConfig().getInitStartTimes();
+                    }
+                }
 
-                cfg.reset(new Solver::Config(experimentPrescription.getTimeLimit(),
+                cfg.reset(new Solver::Config(solverPrescription->getConfig().getTimeLimit(),
                                              obj.get(),
                                              useInitStartTimes,
                                              initStartTimes,
-                                             move(specialisedConfig)));
+                                             solverPrescription->getConfig().getSpecialisedConfig()));
 
                 cout << "Starting instance " << instancePath << endl;
             }
@@ -187,7 +176,7 @@ int main(int argc, char **argv) {
                 cout << " Solver finished with status \"" << result.getStatus() << "\"." << endl;
                 cout << endl;
 
-                path resultPath = resultsPath / experimentPrescriptionName / to_string(work->mRealisationIndex) / (to_string(work->mRepetition) + ".json");
+                path resultPath = resultsPath / solverPrescriptionName / to_string(work->mRealisationIndex) / (to_string(work->mRepetition) + ".json");
 
                 // Write result.
                 if (!exists(resultPath.parent_path())) {
