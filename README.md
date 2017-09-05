@@ -125,19 +125,19 @@ where
 - `INSTANCE_PATH` is the path to instance
 - `RESULT_PATH` is the path where to store the result
 
-## Running the experiment on dataset
+## Running the experiment on a dataset
 The command line interface is following
 ```bash
-./bin/experiment DATASET_NAME SOLVER_CONFIG NUM_THREADS
+./bin/rseclp-experiment DATASET_NAME SOLVER_CONFIG NUM_THREADS
 ```
 where
 - `DATASET_NAME` is the name of the dataset in `experiment-data/datasets` to run the solver on
-- `SOLVER_CONFIG` is the solver configuration in `experiment-data/experiments/$DATASET_NAME/` to use
+- `SOLVER_CONFIG` is the name of solver configuration in `experiment-data/experiments/$DATASET_NAME/` to use
 - `NUM_THREADS` is the number of threads that will be solving different instances in parallel
 
 For example,
 ```bash
-./bin/experiment n=10 lazy.json 3
+./bin/rseclp-experiment n=10 lazy.json 3
 ```
 will run the Lazy Constraints solver on `n=10` dataset with 3 instances being solved in parallel.
 
