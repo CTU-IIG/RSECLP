@@ -65,7 +65,9 @@ namespace rseclp {
         bool hasPreviousStage = false;
         if (doc.HasMember("previousStage")) {
             previousStage = move(string(doc["previousStage"].GetString()));
-            hasPreviousStage = true;
+            if (previousStage.length() > 0) {
+                hasPreviousStage = true;
+            }
         }
 
         StartTimes startTimes;
