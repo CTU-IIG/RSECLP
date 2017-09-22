@@ -153,13 +153,11 @@ If you find our code or benchmark instances useful, we kindly request that you c
 @article{modos2017,
 title = "Algorithms for robust production scheduling with energy consumption limits",
 journal = "Computers & Industrial Engineering",
-volume = "",
-number = "",
-pages = "",
-year = "",
-issn = "",
-doi = "",
-url = "",
+volume = "112",
+pages = "391 - 408",
+year = "2017",
+issn = "0360-8352",
+doi = "https://doi.org/10.1016/j.cie.2017.08.011",
 author = "István Módos and Přemysl Šůcha and Zdeněk Hanzálek",
 }
 ```
