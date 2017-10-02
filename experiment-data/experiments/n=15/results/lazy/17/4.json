@@ -1,0 +1,26 @@
+{
+    "status": 3,
+    "startTimes": [
+        135,
+        8,
+        128,
+        156,
+        45,
+        30,
+        148,
+        75,
+        58,
+        105,
+        113,
+        189,
+        89,
+        167,
+        177
+    ],
+    "objectiveValue": 822.0,
+    "solverRuntimeInMilliseconds": 1199040,
+    "optional": {
+        "lowerBound": "461.000000",
+        "numGeneratedLazyConstraints": "120"
+    }
+}

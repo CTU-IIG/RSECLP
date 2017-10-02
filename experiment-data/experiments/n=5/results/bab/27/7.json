@@ -1,0 +1,13 @@
+{
+    "status": 1,
+    "startTimes": [
+        1,
+        4,
+        40,
+        14,
+        21
+    ],
+    "objectiveValue": 34.0,
+    "solverRuntimeInMilliseconds": 0,
+    "optional": {}
+}

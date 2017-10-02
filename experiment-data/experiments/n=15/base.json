@@ -1,0 +1,7 @@
+{
+  "timeLimitInMilliseconds": 1200000,
+  "gurobiEnvParams": {
+    "OutputFlag": "0",
+    "Threads": "1"
+  }
+}

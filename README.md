@@ -1,6 +1,6 @@
 # Robust production scheduling with energy consumption limits
 
-This repository contains the source code (see `src/`) and benchmark instances (see `experiment-data/datasets/`) for the robust production scheduling problem with energy consumption limits.
+This repository contains the source code (see `src/`), benchmark instances (see `experiment-data/datasets/`) and experiment results from [this paper](#citing) (see `experiment-data/experiments/<experiment-name>/results`) for the robust production scheduling problem with energy consumption limits.
 For more details about the algorithms and instances, see the paper in [this section](#citing).
 
 ## Building the project

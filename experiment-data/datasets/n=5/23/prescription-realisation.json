@@ -1,0 +1,8 @@
+{
+    "numOperations": 5,
+    "numMeteringIntervalsMul": 3,
+    "alpha1": 0.9,
+    "alpha2": 0.1,
+    "alpha3": 0.3,
+    "maxDeviation": 5
+}

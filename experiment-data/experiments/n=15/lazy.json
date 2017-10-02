@@ -1,0 +1,13 @@
+{
+  "parentPath": "./base.json",
+  "previousStage": "tabu.json",
+  "solverStage": {
+    "name": "LazyConstraints",
+    "cfg": {
+      "generateCuttingConstraintsOneSolution": "0",
+      "noEnergyConsumptionLimits": "0",
+      "noDeviations": "0",
+      "generateCuttingConstraintsTowardsOptimal": "1"
+    }
+  }
+}

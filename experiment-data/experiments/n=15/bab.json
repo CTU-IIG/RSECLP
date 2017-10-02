@@ -1,0 +1,9 @@
+{
+  "parentPath": "./base.json",
+  "previousStage": "tabu.json",
+  "solverStage": {
+    "name": "BranchAndBoundOnOrder",
+    "cfg": {
+    }
+  }
+}

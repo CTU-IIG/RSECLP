@@ -1,0 +1,13 @@
+{
+  "parentPath": "./base.json",
+  "previousStage": "greedy.json",
+  "solverStage": {
+    "name": "TabuSearch",
+    "cfg": {
+      "numRestarts": "5",
+      "numIterations": "200",
+      "neighbourhoodSize": "50",
+      "tabuListLength": "5"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+    "generator": "DatasetGenerator2016B_1",
+    "numInstances": 10,
+    "numOperations": [15],
+    "numMeteringIntervalsMul": [3],
+    "alpha1": [0.6, 0.9],
+    "alpha2": [0.1, 0.3],
+    "alpha3": [0.1, 0.3, 0.5],
+    "maxDeviation": [0, 3, 5]
+}

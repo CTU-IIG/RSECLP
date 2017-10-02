@@ -1,0 +1,52 @@
+{
+    "numOperations": 5,
+    "releaseTimes": [
+        14,
+        24,
+        28,
+        35,
+        36
+    ],
+    "dueDates": [
+        34,
+        35,
+        48,
+        53,
+        55
+    ],
+    "processingTimes": [
+        5,
+        8,
+        11,
+        12,
+        15
+    ],
+    "powerConsumptions": [
+        12.358338140316164,
+        8.347534558066759,
+        6.604014255419494,
+        6.946267866570423,
+        6.064016444391533
+    ],
+    "maxDeviation": 3,
+    "numMeteringIntervals": 15,
+    "lengthMeteringInterval": 15,
+    "maxEnergyConsumptions": [
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0,
+        100.0
+    ],
+    "metadata": {}
+}

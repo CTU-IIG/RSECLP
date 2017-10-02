@@ -1,0 +1,11 @@
+{
+  "parentPath": "./base.json",
+  "previousStage": "",
+  "solverStage": {
+    "name": "GreedyHeuristics",
+    "cfg": {
+      "rule": "due_dates",
+      "ascending": "1"
+    }
+  }
+}
