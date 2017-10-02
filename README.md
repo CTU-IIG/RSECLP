@@ -148,7 +148,7 @@ will run the Lazy Constraints solver on `n=10` dataset with 3 instances being so
 Please see file [AUTHORS.txt](AUTHORS.txt) for the list of authors.
 
 ## <a name="citing"></a>Citing
-If you find our code or benchmark instances useful, we kindly request that you cite the following paper
+If you find our code or benchmark instances useful, we kindly request that you cite the following [paper](https://doi.org/10.1016/j.cie.2017.08.011)
 ```
 @article{modos2017,
 title = "Algorithms for robust production scheduling with energy consumption limits",
